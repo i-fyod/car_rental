@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Бронирования – Прокат автомобилей{% endblock %}
+
+{% block content %}
+    <h1>Бронирования</h1>
+
+    <ul class="list-group">
+        {% for booking in bookings %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'bookings:detail' booking.id %}">
+                    №{{ booking.id }}: {{ booking.car.name }},
+                    {{ booking.start_date }} – {{ booking.end_date }}
+                </a>
+                {% include "bookings/includes/booking_status.html" %}
+            </li>
+        {% empty %}
+            <li class="list-group-item">Бронирований пока нет.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
