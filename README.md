@@ -20,9 +20,10 @@
 car_rental/
 ├── manage.py
 ├── carrental/         # Django-проект: настройки, корневые маршруты
-├── homepage/          # главная страница, общий каркас страниц, страница 404
-├── cars/              # страницы автомобилей
-├── bookings/          # страницы бронирований
+├── templates/         # base.html и общие фрагменты (includes/navigation.html)
+├── homepage/          # главная, страница 404, общая статика (css, js, img)
+├── cars/              # страницы автомобилей и их шаблоны
+├── bookings/          # страницы бронирований и их шаблоны
 ├── main.py            # консольное меню
 ├── storage.py         # загрузка и сохранение JSON
 ├── utils.py           # ввод данных, даты, идентификаторы
@@ -38,16 +39,25 @@ Django-приложения не используют ORM и базу данны
 
 ## Страницы
 
-| URL | View | Назначение |
-|---|---|---|
-| `/` | `homepage.views.index` | главная страница и навигация |
-| `/cars/` | `cars.views.cars` | список автомобилей |
-| `/cars/<id>/` | `cars.views.car_detail` | карточка автомобиля, доступность на сегодня |
-| `/bookings/` | `bookings.views.bookings` | список бронирований со статусами |
-| `/bookings/<id>/` | `bookings.views.booking_detail` | бронирование: автомобиль, клиент, период, стоимость |
+| URL | Имя маршрута | View | Шаблон |
+|---|---|---|---|
+| `/` | `homepage:index` | `homepage.views.index` | `homepage/index.html` |
+| `/cars/` | `cars:list` | `cars.views.cars` | `cars/car_list.html` |
+| `/cars/<id>/` | `cars:detail` | `cars.views.car_detail` | `cars/car_detail.html` |
+| `/bookings/` | `bookings:list` | `bookings.views.bookings` | `bookings/booking_list.html` |
+| `/bookings/<id>/` | `bookings:detail` | `bookings.views.booking_detail` | `bookings/booking_detail.html` |
 
 Несуществующий идентификатор возвращает страницу с кодом 404; обработчик `handler404` объявлен в
-`carrental/urls.py`. HTML собирает функция `page()` из `homepage/views.py`, оформление через Bootstrap 5.3 (CDN).
+`carrental/urls.py`, страница лежит в `homepage/templates/homepage/404.html`.
+
+## Шаблоны и статика
+
+- `templates/base.html` — общий каркас: Bootstrap 5.3 (CDN), собственный CSS, шапка с логотипом, блоки `title` и `content`, подвал и скрипт.
+- Дочерние шаблоны наследуют его через `{% extends %}` и переопределяют блоки.
+- Включаемые фрагменты (`{% include %}`): навигация (`includes/navigation.html`), карточка автомобиля (`cars/includes/car_card.html`) и статус брони (`bookings/includes/booking_status.html`).
+- Данные приходят во view-функциях и передаются в шаблоны через контекст; циклы с `{% empty %}`, условия по `is_cancelled`, ссылки через `{% url %}` с пространствами имён приложений.
+- Фильтры: `length`, `default`, `capfirst`, `truncatewords`.
+- Статика в `homepage/static/homepage/`: `css/style.css`, `js/main.js` (текущий год и подсветка пункта меню), `img/logo.svg`.
 
 ## Запуск
 
