@@ -1,15 +1,17 @@
 """Загрузка и сохранение данных в JSON."""
 import json
 from pathlib import Path
-from typing import Any, List
+from typing import Any, List, Tuple
 
 from models import Booking, Car, Client
 from models.cars import find_car_by_id
 from models.clients import find_client_by_id
 
-CARS_PATH = "data/cars.json"
-CLIENTS_PATH = "data/clients.json"
-BOOKINGS_PATH = "data/bookings.json"
+# Пути от корня проекта: работают независимо от текущего каталога.
+DATA_DIR = Path(__file__).resolve().parent / "data"
+CARS_PATH = str(DATA_DIR / "cars.json")
+CLIENTS_PATH = str(DATA_DIR / "clients.json")
+BOOKINGS_PATH = str(DATA_DIR / "bookings.json")
 
 
 def _read_json(path: str) -> List[Any]:
@@ -91,6 +93,13 @@ def load_bookings(
         booking.is_cancelled = item["is_cancelled"]
         bookings.append(booking)
     return bookings
+
+
+def load_all() -> Tuple[List[Car], List[Client], List[Booking]]:
+    """Загрузить автомобили, клиентов и брони с восстановлением связей."""
+    cars = load_cars()
+    clients = load_clients()
+    return cars, clients, load_bookings(BOOKINGS_PATH, cars, clients)
 
 
 def save_bookings(
