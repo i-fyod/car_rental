@@ -1,30 +1,44 @@
+import sqlite3
+from contextlib import closing
 from datetime import date
 
 from django.shortcuts import render
 
-from models.bookings import is_car_available
-from models.cars import find_car_by_id
-from storage import load_all
+from db.database import get_connection
 
 
 def cars(request):
-    """Список автомобилей."""
-    cars_list, _, _ = load_all()
-    context = {
-        "cars": cars_list,
-    }
-    return render(request, "cars/car_list.html", context)
+    """Список автомобилей из таблицы cars."""
+    with closing(get_connection()) as conn:
+        # Row позволяет обращаться к полям по имени: car.name в шаблоне.
+        conn.row_factory = sqlite3.Row
+        cars_list = conn.execute("""
+            SELECT id, name, seats, car_type, price_per_day, description
+            FROM cars
+            ORDER BY name;
+            """).fetchall()
+    return render(request, "cars/car_list.html", {"cars": cars_list})
 
 
 def car_detail(request, car_id):
     """Страница автомобиля с доступностью на сегодня."""
-    cars_list, _, bookings_list = load_all()
-    car = find_car_by_id(cars_list, car_id)
-
     available = None
-    if car is not None:
-        today = date.today().isoformat()
-        available = is_car_available(bookings_list, car, today)
+    with closing(get_connection()) as conn:
+        conn.row_factory = sqlite3.Row
+        car = conn.execute("""
+            SELECT id, name, seats, car_type, price_per_day, description
+            FROM cars
+            WHERE id = ?;
+            """, [car_id]).fetchone()
+        if car is not None:
+            busy = conn.execute("""
+                SELECT COUNT(*)
+                FROM bookings
+                WHERE car_id = ?
+                  AND is_cancelled = 0
+                  AND ? BETWEEN start_date AND end_date;
+                """, [car_id, date.today().isoformat()]).fetchone()[0]
+            available = busy == 0
 
     context = {
         "car": car,
