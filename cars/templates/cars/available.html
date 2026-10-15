@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Свободные автомобили – Прокат автомобилей{% endblock %}
+
+{% block content %}
+    <h1>Свободные автомобили</h1>
+
+    <form method="get" class="row g-2 align-items-end mb-4">
+        <div class="col-auto">
+            <label for="date" class="form-label">Дата</label>
+            <input
+                type="date"
+                id="date"
+                name="date"
+                value="{{ day }}"
+                class="form-control"
+            >
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </div>
+    </form>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% elif day %}
+        <h2 class="h4">Дата: {{ day }}</h2>
+        {% for car in cars %}
+            {% include "cars/includes/car_card.html" %}
+        {% empty %}
+            <p>На выбранную дату свободных автомобилей нет.</p>
+        {% endfor %}
+    {% else %}
+        <p>Выберите дату, чтобы увидеть свободные автомобили.</p>
+    {% endif %}
+
+    <a href="{% url 'cars:list' %}" class="btn btn-outline-secondary mt-3">
+        ← ко всем автомобилям
+    </a>
+{% endblock %}

@@ -5,6 +5,7 @@ from datetime import date
 from django.shortcuts import render
 
 from db.database import get_connection
+from utils import is_valid_date
 
 
 def cars(request):
@@ -50,3 +51,36 @@ def car_detail(request, car_id):
         context,
         status=404 if car is None else 200,
     )
+
+
+def available_cars(request):
+    """Поиск автомобилей, свободных на выбранную дату."""
+    day = request.GET.get("date", "")
+    cars_list = []
+    error = ""
+
+    if day and not is_valid_date(day):
+        error = "Введите дату в формате ГГГГ-ММ-ДД."
+    elif day:
+        with closing(get_connection()) as conn:
+            conn.row_factory = sqlite3.Row
+            # Значение даты передаётся параметром ?, а не вставляется в SQL.
+            cars_list = conn.execute("""
+                SELECT id, name, seats, car_type, price_per_day,
+                       description
+                FROM cars
+                WHERE id NOT IN (
+                    SELECT car_id
+                    FROM bookings
+                    WHERE is_cancelled = 0
+                      AND ? BETWEEN start_date AND end_date
+                )
+                ORDER BY price_per_day;
+                """, [day]).fetchall()
+
+    context = {
+        "cars": cars_list,
+        "day": day,
+        "error": error,
+    }
+    return render(request, "cars/available.html", context)

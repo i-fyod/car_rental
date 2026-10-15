@@ -7,6 +7,10 @@
 
     <p>Всего автомобилей: {{ cars|length }}</p>
 
+    <a href="{% url 'cars:available' %}" class="btn btn-outline-primary mb-3">
+        Найти свободный автомобиль
+    </a>
+
     {% for car in cars %}
         {% include "cars/includes/car_card.html" %}
     {% empty %}
