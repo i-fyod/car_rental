@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" role="img" aria-label="Прокат автомобилей">
+    <title>Прокат автомобилей</title>
+    <path d="M10 38 L18 24 Q22 18 30 18 H72 Q80 18 86 24 L98 34 Q108 36 110 42 V46 H10 Z" fill="#1f4e5f"/>
+    <path d="M26 24 H44 V34 H22 Z M50 24 H70 Q74 24 78 28 L84 34 H50 Z" fill="#f6f8f9"/>
+    <circle cx="32" cy="46" r="9" fill="#2b2b2b"/>
+    <circle cx="32" cy="46" r="4" fill="#d5dde0"/>
+    <circle cx="88" cy="46" r="9" fill="#2b2b2b"/>
+    <circle cx="88" cy="46" r="4" fill="#d5dde0"/>
+</svg>
