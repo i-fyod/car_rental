@@ -2,4 +2,4 @@ venv/
 __pycache__/
 *.pyc
 .pytest_cache/
-.flake8_cache/
+db.sqlite3
