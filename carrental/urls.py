@@ -5,6 +5,7 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("homepage.urls")),
+    path("cars/", include("cars.urls")),
 ]
 
 # Обработчик 404 читается только из корневого urls.py.
