@@ -6,6 +6,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("homepage.urls")),
     path("cars/", include("cars.urls")),
+    path("bookings/", include("bookings.urls")),
 ]
 
 # Обработчик 404 читается только из корневого urls.py.
