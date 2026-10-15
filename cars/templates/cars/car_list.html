@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Автомобили – Прокат автомобилей{% endblock %}
+
+{% block content %}
+    <h1>Автомобили</h1>
+
+    <p>Всего автомобилей: {{ cars|length }}</p>
+
+    {% for car in cars %}
+        {% include "cars/includes/car_card.html" %}
+    {% empty %}
+        <p>Автомобили не найдены.</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if car %}{{ car.name }} – Прокат автомобилей{% else %}Автомобиль не найден – Прокат автомобилей{% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if car %}
+        <div class="card car-card">
+            <div class="card-body">
+                <h1 class="card-title">{{ car.name }}</h1>
+
+                <p class="card-text"><strong>ID:</strong> {{ car.id }}</p>
+
+                <p class="card-text">
+                    <strong>Тип кузова:</strong> {{ car.car_type }}
+                </p>
+
+                <p class="card-text">
+                    <strong>Мест:</strong> {{ car.seats }}
+                </p>
+
+                <p class="card-text car-price">
+                    {{ car.price_per_day }} руб./сутки
+                </p>
+
+                <p class="card-text">
+                    {{ car.description|default:"Описание отсутствует." }}
+                </p>
+
+                <p class="card-text">
+                    Сегодня:
+                    {% if available %}
+                        <span class="badge bg-success">свободен</span>
+                    {% else %}
+                        <span class="badge bg-danger">занят</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    {% else %}
+        <h1 class="text-danger">Автомобиль не найден</h1>
+        <p>Автомобиль с указанным идентификатором отсутствует.</p>
+    {% endif %}
+
+    <a href="{% url 'cars:list' %}" class="btn btn-outline-secondary mt-3">
+        ← к списку автомобилей
+    </a>
+{% endblock %}

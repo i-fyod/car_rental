@@ -1,0 +1,21 @@
+<article class="card car-card mb-3">
+    <div class="card-body">
+        <h2 class="card-title h4">{{ car.name|default:"Без названия" }}</h2>
+
+        <p class="card-text">
+            {{ car.car_type|capfirst }}, {{ car.seats }} мест
+        </p>
+
+        <p class="card-text car-price">
+            {{ car.price_per_day }} руб./сутки
+        </p>
+
+        <p class="card-text">
+            {{ car.description|default:"Описание отсутствует."|truncatewords:8 }}
+        </p>
+
+        <a href="{% url 'cars:detail' car.id %}" class="btn btn-primary">
+            Подробнее
+        </a>
+    </div>
+</article>
