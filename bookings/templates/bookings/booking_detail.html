@@ -12,13 +12,13 @@
 
                 <p class="card-text">
                     <strong>Автомобиль:</strong>
-                    <a href="{% url 'cars:detail' booking.car.id %}">
-                        {{ booking.car.name }}
+                    <a href="{% url 'cars:detail' booking.car_id %}">
+                        {{ booking.car_name }}
                     </a>
                 </p>
 
                 <p class="card-text">
-                    <strong>Клиент:</strong> {{ booking.client.name }}
+                    <strong>Клиент:</strong> {{ booking.client_name }}
                 </p>
 
                 <p class="card-text">
