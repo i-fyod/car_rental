@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Главная – Прокат автомобилей{% endblock %}
+
+{% block content %}
+    <h1 class="display-4">Прокат автомобилей</h1>
+
+    <p class="lead">
+        Сервис аренды автомобилей: каталог машин и бронирование на нужные даты.
+    </p>
+    <p>Основные разделы:</p>
+    <a href="{% url 'cars:list' %}" class="btn btn-primary me-2">
+        Автомобили
+    </a>
+    <a href="{% url 'bookings:list' %}" class="btn btn-secondary">
+        Бронирования
+    </a>
+{% endblock %}
