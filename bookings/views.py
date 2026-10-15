@@ -67,3 +67,56 @@ def booking_detail(request, booking_id):
         {"booking": booking},
         status=404 if booking is None else 200,
     )
+
+
+def statistics(request):
+    """Статистика: брони по автомобилям, выручка и популярные машины."""
+    with closing(get_connection()) as conn:
+        conn.row_factory = sqlite3.Row
+        per_car = conn.execute("""
+            SELECT
+                cars.name AS car_name,
+                COUNT(bookings.id) AS bookings_count
+            FROM cars
+            LEFT JOIN bookings
+                ON cars.id = bookings.car_id
+                AND bookings.is_cancelled = 0
+            GROUP BY cars.id, cars.name
+            ORDER BY bookings_count DESC, cars.name;
+            """).fetchall()
+        revenue = conn.execute("""
+            SELECT
+                cars.car_type,
+                COUNT(bookings.id) AS bookings_count,
+                SUM(
+                    cars.price_per_day
+                    * (CAST(julianday(bookings.end_date)
+                            - julianday(bookings.start_date) AS INTEGER)
+                       + 1)
+                ) AS revenue
+            FROM bookings
+            JOIN cars
+                ON bookings.car_id = cars.id
+            WHERE bookings.is_cancelled = 0
+            GROUP BY cars.car_type
+            ORDER BY revenue DESC;
+            """).fetchall()
+        popular = conn.execute("""
+            SELECT
+                cars.name AS car_name,
+                COUNT(bookings.id) AS bookings_count
+            FROM cars
+            JOIN bookings
+                ON cars.id = bookings.car_id
+            WHERE bookings.is_cancelled = 0
+            GROUP BY cars.id, cars.name
+            HAVING COUNT(bookings.id) >= 2
+            ORDER BY bookings_count DESC, cars.name;
+            """).fetchall()
+
+    context = {
+        "per_car": per_car,
+        "revenue": revenue,
+        "popular": popular,
+    }
+    return render(request, "bookings/statistics.html", context)

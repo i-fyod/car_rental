@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Статистика бронирований – Прокат автомобилей{% endblock %}
+
+{% block content %}
+    <h1>Статистика бронирований</h1>
+
+    <h2 class="h4 mt-4">Активные брони по автомобилям</h2>
+    <table class="table table-sm">
+        <thead>
+            <tr><th>Автомобиль</th><th>Броней</th></tr>
+        </thead>
+        <tbody>
+            {% for item in per_car %}
+                <tr>
+                    <td>{{ item.car_name }}</td>
+                    <td>{{ item.bookings_count }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="2">Данные отсутствуют.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="h4 mt-4">Выручка по типам кузова</h2>
+    <table class="table table-sm">
+        <thead>
+            <tr><th>Тип кузова</th><th>Броней</th><th>Выручка, руб.</th></tr>
+        </thead>
+        <tbody>
+            {% for item in revenue %}
+                <tr>
+                    <td>{{ item.car_type|capfirst }}</td>
+                    <td>{{ item.bookings_count }}</td>
+                    <td>{{ item.revenue }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="3">Данные отсутствуют.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="h4 mt-4">Автомобили с двумя и более бронями</h2>
+    <ul class="list-group">
+        {% for item in popular %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span>{{ item.car_name }}</span>
+                <span class="badge bg-primary">{{ item.bookings_count }}</span>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Таких автомобилей нет.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
