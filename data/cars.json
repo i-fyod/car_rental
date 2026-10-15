@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "name": "Toyota Camry",
+        "seats": 5,
+        "car_type": "седан",
+        "price_per_day": 4500,
+        "description": "Комфортный седан бизнес-класса с автоматической коробкой."
+    },
+    {
+        "id": 2,
+        "name": "Hyundai Solaris",
+        "seats": 5,
+        "car_type": "седан",
+        "price_per_day": 3000,
+        "description": "Экономичный городской седан."
+    },
+    {
+        "id": 3,
+        "name": "Kia Sportage",
+        "seats": 5,
+        "car_type": "кроссовер",
+        "price_per_day": 5200,
+        "description": "Кроссовер с полным приводом для поездок за город."
+    },
+    {
+        "id": 4,
+        "name": "Volkswagen Tiguan",
+        "seats": 5,
+        "car_type": "кроссовер",
+        "price_per_day": 5800,
+        "description": "Просторный кроссовер с большим багажником."
+    },
+    {
+        "id": 5,
+        "name": "Ford Transit",
+        "seats": 9,
+        "car_type": "микроавтобус",
+        "price_per_day": 6500,
+        "description": "Микроавтобус для групповых поездок."
+    },
+    {
+        "id": 6,
+        "name": "Skoda Fabia",
+        "seats": 5,
+        "car_type": "хэтчбек",
+        "price_per_day": 2600,
+        "description": "Компактный хэтчбек для города."
+    }
+]

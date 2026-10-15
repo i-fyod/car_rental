@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "car_id": 1,
+        "client_id": 1,
+        "start_date": "2026-10-12",
+        "end_date": "2026-10-18",
+        "is_cancelled": false
+    },
+    {
+        "id": 2,
+        "car_id": 3,
+        "client_id": 2,
+        "start_date": "2026-10-20",
+        "end_date": "2026-10-25",
+        "is_cancelled": false
+    },
+    {
+        "id": 3,
+        "car_id": 2,
+        "client_id": 3,
+        "start_date": "2026-10-01",
+        "end_date": "2026-10-05",
+        "is_cancelled": false
+    },
+    {
+        "id": 4,
+        "car_id": 4,
+        "client_id": 4,
+        "start_date": "2026-10-14",
+        "end_date": "2026-10-16",
+        "is_cancelled": true
+    },
+    {
+        "id": 5,
+        "car_id": 1,
+        "client_id": 5,
+        "start_date": "2026-10-25",
+        "end_date": "2026-10-28",
+        "is_cancelled": false
+    },
+    {
+        "id": 6,
+        "car_id": 5,
+        "client_id": 2,
+        "start_date": "2026-11-01",
+        "end_date": "2026-11-07",
+        "is_cancelled": false
+    },
+    {
+        "id": 7,
+        "car_id": 3,
+        "client_id": 1,
+        "start_date": "2026-10-28",
+        "end_date": "2026-10-30",
+        "is_cancelled": true
+    },
+    {
+        "id": 8,
+        "car_id": 2,
+        "client_id": 5,
+        "start_date": "2026-10-15",
+        "end_date": "2026-10-17",
+        "is_cancelled": false
+    }
+]
